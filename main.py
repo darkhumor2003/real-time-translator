@@ -10,7 +10,7 @@ USE_STREAMLIT_AUDIO = True
 isTranslateOn = False
 
 # Supported languages from deep-translator
-supported_languages = GoogleTranslator.get_supported_languages(as_dict=True)
+supported_languages = GoogleTranslator(source='auto', target='en').get_supported_languages(as_dict=True)
 language_names = list(supported_languages.keys())
 
 # Create reverse mapping
