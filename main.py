@@ -44,7 +44,7 @@ def main_process(output_placeholder, from_language, to_language):
         output_placeholder.warning("Voice translation via microphone is not supported on Streamlit Cloud.")
         return
 
-try:
+
     while isTranslateOn:
         rec = sr.Recognizer()
         with sr.Microphone() as source:
@@ -61,8 +61,12 @@ try:
 
             text_to_voice(translated_text.text, to_language)
     
+        except sr.UnknownValueError:
+            output_placeholder.error("Sorry, could not understand the audio.")
+        except sr.RequestError:
+            output_placeholder.error("Could not request results from Google Speech Recognition service.")
         except Exception as e:
-            print(e)
+            output_placeholder.error(f"Unexpected error: {e}")
 
 # UI layout
 st.title("Language Translator")
