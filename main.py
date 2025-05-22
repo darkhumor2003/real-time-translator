@@ -7,7 +7,8 @@ import speech_recognition as sr
 from googletrans import LANGUAGES, Translator
 from uuid import uuid4
 
-USE_STREAMLIT_AUDIO = os.environ.get('STREAMLIT_CLOUD', 'false') == 'true'
+USE_STREAMLIT_AUDIO = True
+
 isTranslateOn = False
 
 translator = Translator() # Initialize the translator module.
@@ -26,14 +27,10 @@ def text_to_voice(text_data, to_language):
     tts = gTTS(text=text_data, lang=to_language, slow=False)
     tts.save("cache_file.mp3")
 
-    if USE_STREAMLIT_AUDIO:
-        with open("cache_file.mp3", "rb") as audio_file:
-            st.audio(audio_file.read(), format="audio/mp3")
-    else:
-        import pygame
-        pygame.mixer.init()
-        sound = pygame.mixer.Sound("cache_file.mp3")
-        sound.play()
+    
+    with open("cache_file.mp3", "rb") as audio_file:
+        st.audio(audio_file.read(), format="audio/mp3")
+    
 
 
 def main_process(output_placeholder, from_language, to_language):
