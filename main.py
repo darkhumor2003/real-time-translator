@@ -43,15 +43,15 @@ def main_process(output_placeholder, from_language, to_language):
     if USE_STREAMLIT_AUDIO:
         output_placeholder.warning("Voice translation via microphone is not supported on Streamlit Cloud.")
         return
-        
-    while isTranslateOn:
 
+try:
+    while isTranslateOn:
         rec = sr.Recognizer()
         with sr.Microphone() as source:
             output_placeholder.text("Listening...")
             rec.pause_threshold = 1
             audio = rec.listen(source, phrase_time_limit=10)
-        
+       
         try:
             output_placeholder.text("Processing...")
             spoken_text = rec.recognize_google(audio, language='{}'.format(from_language))
