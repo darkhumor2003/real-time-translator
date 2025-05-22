@@ -2,4 +2,4 @@ streamlit
 googletrans==4.0.0-rc1
 gtts
 SpeechRecognition
-pygame ; sys_platform != 'linux'
+
