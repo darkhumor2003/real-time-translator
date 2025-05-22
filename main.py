@@ -7,7 +7,7 @@ import speech_recognition as sr
 from googletrans import LANGUAGES, Translator
 from uuid import uuid4
 
-
+USE_STREAMLIT_AUDIO = os.environ.get('STREAMLIT_CLOUD', 'false') == 'true'
 isTranslateOn = False
 
 translator = Translator() # Initialize the translator module.
