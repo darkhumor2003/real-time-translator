@@ -23,16 +23,27 @@ def translator_function(spoken_text, from_language, to_language):
     return translator.translate(spoken_text, src='{}'.format(from_language), dest='{}'.format(to_language))
 
 def text_to_voice(text_data, to_language):
-    myobj = gTTS(text=text_data, lang='{}'.format(to_language), slow=False)
-    myobj.save("cache_file.mp3")
-    audio = pygame.mixer.Sound("cache_file.mp3")  # Load a sound.
-    audio.play()
-    os.remove("cache_file.mp3")
+    tts = gTTS(text=text_data, lang=to_language, slow=False)
+    tts.save("cache_file.mp3")
+
+    if USE_STREAMLIT_AUDIO:
+        with open("cache_file.mp3", "rb") as audio_file:
+            st.audio(audio_file.read(), format="audio/mp3")
+    else:
+        import pygame
+        pygame.mixer.init()
+        sound = pygame.mixer.Sound("cache_file.mp3")
+        sound.play()
+
 
 def main_process(output_placeholder, from_language, to_language):
     
     global isTranslateOn
-    
+
+    if USE_STREAMLIT_AUDIO:
+        output_placeholder.warning("Voice translation via microphone is not supported on Streamlit Cloud.")
+        return
+        
     while isTranslateOn:
 
         rec = sr.Recognizer()
